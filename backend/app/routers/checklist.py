@@ -11,7 +11,7 @@ router = APIRouter(
 
 @router.get("/", response_model=list[ChecklistTaskResponse])
 def get_tasks(db: Session = Depends(get_db)):
-    tasks = db.query(ChecklistTask).all()
+    tasks = db.query(ChecklistTask).order_by(ChecklistTask.week, ChecklistTask.id).all()
     return tasks
 
 @router.get("/{task_id}", response_model=ChecklistTaskResponse)
