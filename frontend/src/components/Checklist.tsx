@@ -19,12 +19,28 @@ function Checklist() {
   }
 
   const weeks = [1, 2, 3, 4];
+  const completedCount = tasks.filter((t) => t.is_completed).length;
+  const totalCount = tasks.length;
+  const percentage = totalCount === 0 ? 0 : Math.round((completedCount / totalCount) * 100);
 
   if (loading) return <p className="text-gray-400">Loading checklist...</p>;
 
   return (
     <div>
       <h2 className="text-2xl font-bold text-white mb-6">My Onboarding Checklist</h2>
+      <div className="mb-8">
+        <div className="flex justify-between text-sm mb-2">
+          <span className="text-gray-400">Overall progress</span>
+          <span className="text-indigo-400 font-medium">{completedCount}/{totalCount} tasks completed</span>
+        </div>
+        <div className="w-full bg-gray-800 rounded-full h-2">
+          <div
+            className="bg-indigo-600 h-2 rounded-full transition-all duration-500"
+            style={{ width: `${percentage}%` }}
+          />
+        </div>
+        <p className="text-right text-xs text-gray-500 mt-1">{percentage}%</p>
+      </div>
       {weeks.map((week) => (
         <div key={week} className="mb-8">
           <h3 className="text-indigo-400 font-semibold text-sm uppercase tracking-wider mb-3">Week {week}</h3>
