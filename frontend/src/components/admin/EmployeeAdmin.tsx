@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createEmployee, getEmployees, getEmployee, deleteEmployee} from "../../api/employees"
+import { createEmployee, getEmployees, deleteEmployee} from "../../api/employees"
 import type { Employee } from "../../api/types";
 
 function EmployeeAdmin() {
@@ -34,7 +34,7 @@ function EmployeeAdmin() {
                 ))}
             </ul>
         
-            <h4> Add A New Employee</h4>
+            <h4> Add New Employee</h4>
             <input placeholder="Name" value={name} onChange={(ev) => setName(ev.target.value)} />
             <input placeholder="Department" value={department} onChange={(ev) => setDepartment(ev.target.value)} />
             <input placeholder="Role" value={role} onChange={(ev) => setRole(ev.target.value)} />
