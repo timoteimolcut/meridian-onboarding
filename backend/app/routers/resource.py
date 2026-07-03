@@ -29,6 +29,17 @@ def create_resource(resource: ResourceCreate, db: Session = Depends(get_db)):
     db.refresh(db_resource)
     return db_resource
 
+@router.patch("/{resource_id}", response_model=ResourceResponse)
+def update_resource(resource_id: int, resource: ResourceCreate, db: Session = Depends(get_db)):
+    db_resource = db.query(Resource).filter(Resource.id == resource_id).first()
+    if db_resource is None:
+        raise HTTPException(status_code=404, detail="Resource not found")
+    for key, value in resource.model_dump(exclude_unset=True).items():
+        setattr(db_resource, key, value)
+    db.commit()
+    db.refresh(db_resource)
+    return db_resource
+
 @router.delete("/{resource_id}")
 def delete_resource(resource_id: int, db: Session = Depends(get_db)):
     resource = db.query(Resource).filter(Resource.id == resource_id).first()
