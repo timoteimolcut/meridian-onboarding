@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.models import employee, checklist, resource
 from app.routers import employee, checklist, resource
+from app.routers import auth
+from app.models import user
 
 app = FastAPI(title="Meridian Onboarding API")
 Base.metadata.create_all(bind=engine)
@@ -25,3 +27,4 @@ def health():
 app.include_router(employee.router)
 app.include_router(checklist.router)
 app.include_router(resource.router)
+app.include_router(auth.router)
