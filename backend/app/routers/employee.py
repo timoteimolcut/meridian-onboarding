@@ -45,6 +45,11 @@ def delete_employee(employee_id: int, db: Session = Depends(get_db)):
     employee = db.query(Employee).filter(Employee.id == employee_id).first()
     if employee is None:
         raise HTTPException(status_code=404, detail="Employee not found")
+    if employee.user_id:
+        from app.models.user import User
+        user = db.query(User).filter(User.id == employee.user_id).first()
+        if user:
+            db.delete(user)
     db.delete(employee)
     db.commit()
     return {"message": "Employee deleted successfully"}
