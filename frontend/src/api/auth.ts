@@ -17,3 +17,23 @@ export async function login(username: string, password: string): Promise<AuthRes
   }
   return response.json();
 }
+
+export async function signup(data: {
+  username: string;
+  password: string;
+  name: string;
+  department: string;
+  role: string;
+  slack_handle?: string;
+  email?: string;
+}): Promise<{ id: number; username: string; role: string }> {
+  const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error("Signup failed");
+  }
+  return response.json();
+}

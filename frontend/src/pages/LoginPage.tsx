@@ -3,13 +3,14 @@ import { login } from "../api/auth";
 
 interface Props {
   onLogin: (token: string, role: string) => void;
+  onGoToSignUp: () => void;
 }
 
-function LoginPage({ onLogin }: Props) {
+function LoginPage({ onLogin, onGoToSignUp }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleLogin() {
     try {
@@ -54,6 +55,12 @@ function LoginPage({ onLogin }: Props) {
           className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-lg transition"
         >
           Log In
+        </button>
+        <button
+          onClick={onGoToSignUp}
+          className="w-full text-gray-400 hover:text-white text-sm mt-3 transition"
+        >
+          New employee? Create an account
         </button>
       </div>
     </div>
