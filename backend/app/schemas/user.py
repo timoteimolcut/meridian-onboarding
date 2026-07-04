@@ -21,3 +21,12 @@ class Token(BaseModel):
     access_token: str
     token_type: str
     role: str
+
+class SignUpRequest(BaseModel):
+    username: str
+    password: str
+    name: str
+    department: str
+    role: str
+    slack_handle: str | None = None
+    email: str | None = None

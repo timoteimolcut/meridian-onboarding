@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
-from app.schemas.user import LoginRequest, Token, UserCreate, UserResponse
+from app.schemas.user import LoginRequest, Token, UserCreate, UserResponse, SignUpRequest
 import bcrypt
 from jose import jwt
 from datetime import datetime, timedelta
@@ -40,6 +40,28 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     hashed = hash_password(user.password)
     db_user = User(username=user.username, hashed_password=hashed, role=user.role)
     db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+@router.post("/signup", response_model=UserResponse)
+def signup(request: SignUpRequest, db: Session = Depends(get_db)):
+    existing = db.query(User).filter(User.username == request.username).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Username already exists")
+    hashed = hash_password(request.password)
+    db_user = User(username=request.username, hashed_password=hashed, role="employee")
+    db.add(db_user)
+    db.flush()
+    from app.models.employee import Employee
+    db_employee = Employee(
+        name=request.name,
+        department=request.department,
+        role=request.role,
+        slack_handle=request.slack_handle,
+        email=request.email
+    )
+    db.add(db_employee)
     db.commit()
     db.refresh(db_user)
     return db_user
