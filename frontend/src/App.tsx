@@ -66,7 +66,7 @@ function App() {
           <Route path="/team" element={<TeamPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/admin" element={role === "admin" ? <AdminPage /> : <Navigate to="/checklist" />} />
-          <Route path="/" element={<ChecklistPage />} />
+          <Route path="/" element={<ProfilePage token={token} />} />
         </Routes>
       </main>
     </div>
