@@ -6,6 +6,7 @@ import ResourcesPage from './pages/ResourcesPage'
 import AdminPage from './pages/AdminPage'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
+import ProfilePage from './pages/ProfilePage'
 
 function App() {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
@@ -48,8 +49,9 @@ function App() {
       <header className="bg-gray-900 border-b border-gray-800 px-6 py-4 flex items-center justify-between">
         <h1 className="text-xl font-bold text-indigo-400">Meridian Onboarding</h1>
         <nav className="flex items-center gap-6">
-          <NavLink to="/checklist" className={({ isActive }) => isActive ? "text-white font-semibold border-b-2 border-indigo-400 pb-0.5" : "text-gray-300 hover:text-white transition"}>Checklist</NavLink>
+          <NavLink to="/profile" className={({ isActive }) => isActive ? "text-white font-semibold border-b-2 border-indigo-400 pb-0.5" : "text-gray-300 hover:text-white transition"}>My Profile</NavLink>
           <NavLink to="/team" className={({ isActive }) => isActive ? "text-white font-semibold border-b-2 border-indigo-400 pb-0.5" : "text-gray-300 hover:text-white transition"}>Team</NavLink>
+          <NavLink to="/checklist" className={({ isActive }) => isActive ? "text-white font-semibold border-b-2 border-indigo-400 pb-0.5" : "text-gray-300 hover:text-white transition"}>Checklist</NavLink>
           <NavLink to="/resources" className={({ isActive }) => isActive ? "text-white font-semibold border-b-2 border-indigo-400 pb-0.5" : "text-gray-300 hover:text-white transition"}>Resources</NavLink>
           {role === "admin" && <NavLink to="/admin" className={({ isActive }) => isActive ? "text-white font-semibold border-b-2 border-indigo-400 pb-0.5" : "text-gray-300 hover:text-white transition"}>Admin</NavLink>}
           <button onClick={handleLogout} className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-1.5 rounded-lg text-sm transition">
@@ -59,6 +61,7 @@ function App() {
       </header>
       <main className="max-w-5xl mx-auto px-6 py-8">
         <Routes>
+          <Route path="/profile" element={<ProfilePage token={token} />} />
           <Route path="/checklist" element={<ChecklistPage />} />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/resources" element={<ResourcesPage />} />

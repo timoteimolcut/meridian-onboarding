@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
 from app.schemas.user import LoginRequest, Token, UserCreate, UserResponse, SignUpRequest
+from app.schemas.employee import EmployeeResponse
 import bcrypt
 from jose import jwt
 from datetime import datetime, timedelta
@@ -59,9 +60,27 @@ def signup(request: SignUpRequest, db: Session = Depends(get_db)):
         department=request.department,
         role=request.role,
         slack_handle=request.slack_handle,
-        email=request.email
+        email=request.email,
+        user_id=db_user.id
     )
     db.add(db_employee)
     db.commit()
     db.refresh(db_user)
     return db_user
+
+@router.get("/me", response_model=EmployeeResponse)
+def get_me(token: str, db: Session = Depends(get_db)):
+    from app.models.employee import Employee
+    from app.schemas.employee import EmployeeResponse
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+    except:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    user = db.query(User).filter(User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    employee = db.query(Employee).filter(Employee.user_id == user.id).first()
+    if not employee:
+        raise HTTPException(status_code=404, detail="Employee profile not found")
+    return employee

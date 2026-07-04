@@ -13,9 +13,7 @@ class EmployeeCreate(EmployeeBase):
 
 class EmployeeResponse(EmployeeBase):
     id: int
+    user_id: int | None = None
 
     class Config:
-        from_attributes = True
-
-
-        
+        from_attributes = True        

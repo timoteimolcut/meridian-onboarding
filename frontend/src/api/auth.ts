@@ -1,4 +1,5 @@
 import API_BASE_URL from "./client";
+import type { Employee } from "./types";
 
 export interface AuthResponse {
   access_token: string;
@@ -34,6 +35,16 @@ export async function signup(data: {
   });
   if (!response.ok) {
     throw new Error("Signup failed");
+  }
+  return response.json();
+}
+
+export async function getMe(token: string): Promise<Employee> {
+  const response = await fetch(`${API_BASE_URL}/auth/me?token=${token}`, {
+    method: "GET",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch profile");
   }
   return response.json();
 }

@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from app.database import Base
-
 
 class Employee(Base):
     __tablename__ = "employees"
@@ -11,4 +10,4 @@ class Employee(Base):
     role = Column(String, nullable=False)
     slack_handle = Column(String)
     email = Column(String)
-
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
