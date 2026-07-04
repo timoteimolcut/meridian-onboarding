@@ -2,6 +2,13 @@ import { useEffect, useState } from "react";
 import { getResources, createResource, deleteResource } from "../../api/resources";
 import type { Resource } from "../../api/types";
 
+const categoryColors: Record<string, string> = {
+  Tools: "bg-indigo-900 text-indigo-300",
+  Repos: "bg-green-900 text-green-300",
+  Processes: "bg-amber-900 text-amber-300",
+  HR: "bg-blue-900 text-blue-300",
+};
+
 function ResourceAdmin() {
   const [resources, setResources] = useState<Resource[]>([]);
   const [title, setTitle] = useState("");
@@ -32,11 +39,13 @@ function ResourceAdmin() {
       <div className="flex flex-col gap-2 mb-6">
         {resources.map((r) => (
           <div key={r.id} className="flex items-center justify-between bg-gray-800 rounded-lg px-4 py-3">
-            <div>
+            <div className="flex items-center gap-3">
               <span className="text-white font-medium">{r.title}</span>
-              <span className="text-indigo-400 text-xs ml-2">[{r.category}]</span>
+              <span className={`text-xs px-2 py-1 rounded-full font-medium ${categoryColors[r.category] || "bg-gray-700 text-gray-300"}`}>
+                {r.category}
+              </span>
               {r.url && (
-                <a href={r.url} target="_blank" className="text-gray-400 hover:text-indigo-300 text-xs ml-2 transition">
+                <a href={r.url} target="_blank" className="text-gray-400 hover:text-indigo-300 text-xs transition">
                   Open →
                 </a>
               )}
@@ -50,7 +59,13 @@ function ResourceAdmin() {
       <h4 className="text-sm font-semibold text-indigo-400 uppercase tracking-wider mb-3">Add New Resource</h4>
       <div className="grid grid-cols-2 gap-3 mb-3">
         <input className={inputClass} placeholder="Title" value={title} onChange={(ev) => setTitle(ev.target.value)} />
-        <input className={inputClass} placeholder="Category" value={category} onChange={(ev) => setCategory(ev.target.value)} />
+        <select className={inputClass} value={category} onChange={(ev) => setCategory(ev.target.value)}>
+          <option value="" disabled>Select Category</option>
+          <option value="Tools">Tools</option>
+          <option value="Repos">Repos</option>
+          <option value="Processes">Processes</option>
+          <option value="HR">HR</option>
+        </select>
         <input className={`${inputClass} col-span-2`} placeholder="URL (optional)" value={url} onChange={(ev) => setUrl(ev.target.value)} />
         <input className={`${inputClass} col-span-2`} placeholder="Description (optional)" value={description} onChange={(ev) => setDescription(ev.target.value)} />
       </div>

@@ -35,8 +35,8 @@ function ChecklistAdmin() {
       <h3 className="text-lg font-semibold text-white mb-4">Checklist Tasks</h3>
       <div className="flex flex-col gap-2 mb-6">
         {tasks.map((t) => (
-          <div key={t.id} className="flex items-center justify-between bg-gray-800 rounded-lg px-4 py-3">
-            <div className="flex items-center gap-3">
+            <div key={t.id} className="flex items-center justify-between bg-gray-800 rounded-lg px-4 py-3" title={t.description || ""}>
+              <div className="flex items-center gap-3">
               <span className={t.is_completed ? "text-gray-500 line-through" : "text-white"}>
                 {t.title}
               </span>
