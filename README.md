@@ -15,6 +15,11 @@ Built as a practical solution to a real problem — the painful, disorganised on
 - **Employee:** username `employee` / password `employee123`
 - Or sign up as a new employee directly from the app
 
+> To create admin and employee accounts on a fresh database, call:
+> `POST /auth/register` with body `{"username": "admin", "password": "admin123", "role": "admin"}`
+> and `{"username": "employee", "password": "employee123", "role": "employee"}`
+> Or call `POST /auth/seed` to populate all sample data at once.
+
 ## Stack
 - **Backend:** FastAPI + PostgreSQL + SQLAlchemy
 - **Frontend:** React (TypeScript) + Vite + Tailwind CSS
