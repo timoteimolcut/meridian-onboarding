@@ -143,3 +143,21 @@ def seed_database(db: Session = Depends(get_db)):
     db.add_all(resources)
     db.commit()
     return {"message": "Database seeded successfully!"}
+
+@router.delete("/reset")
+def reset_database(db: Session = Depends(get_db)):
+    from app.models.employee import Employee
+    from app.models.checklist import ChecklistTask
+    from app.models.resource import Resource
+    db.query(ChecklistTask).delete()
+    db.query(Resource).delete()
+    db.query(Employee).delete()
+    db.query(User).delete()
+    db.commit()
+    # Recreate default users
+    admin = User(username="admin", hashed_password=hash_password("admin123"), role="admin")
+    employee = User(username="employee", hashed_password=hash_password("employee123"), role="employee")
+    db.add(admin)
+    db.add(employee)
+    db.commit()
+    return {"message": "Database reset successfully! Default users recreated."}
