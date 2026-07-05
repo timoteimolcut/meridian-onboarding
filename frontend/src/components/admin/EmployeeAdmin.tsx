@@ -64,7 +64,17 @@ function EmployeeAdmin() {
       </div>
       <h4 className="text-sm font-semibold text-indigo-400 uppercase tracking-wider mb-3">Add New Employee</h4>
       <div className="grid grid-cols-2 gap-3 mb-3">
-        <input className={inputClass} placeholder="Name" value={name} onChange={(ev) => setName(ev.target.value)} />
+        <input className={inputClass} placeholder="Name" value={name} 
+        onChange={(ev) => {
+            const fullName = ev.target.value;
+            setName(fullName);
+            const parts = fullName.trim().toLowerCase().split(" ");
+            const first = parts[0] || "";
+            const last = parts[1] || "";
+            setSlackHandle(first ? `@${first}.${last}` : "");
+            setEmail(first && last ? `${first}.${last}@meridian.com` : "");
+          }}
+        />
         <select className={inputClass} value={department} onChange={(ev) => { setDepartment(ev.target.value); setRole(""); }}>
           <option value="" disabled>Select Department</option>
           <option value="Engineering">Engineering</option>

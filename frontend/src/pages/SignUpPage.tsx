@@ -47,7 +47,18 @@ function SignUpPage({ onSignUp, onBackToLogin }: Props) {
         <h1 className="text-3xl font-bold text-indigo-400 mb-2">Meridian</h1>
         <p className="text-gray-400 mb-6">Create your onboarding account.</p>
         <div className="flex flex-col gap-3">
-          <input className={inputClass} placeholder="Full Name" value={name} onChange={(ev) => setName(ev.target.value)} />
+                  
+          <input className={inputClass} placeholder="Full Name" value={name} 
+          onChange={(ev) => {
+            const fullName = ev.target.value;
+            setName(fullName);
+            const parts = fullName.trim().toLowerCase().split(" ");
+            const first = parts[0] || "";
+            const last = parts[1] || "";
+            setSlackHandle(first ? `@${first}.${last}` : "");
+            setEmail(first && last ? `${first}.${last}@meridian.com` : "");
+          }}
+          />
           <select
             className={inputClass}
             value={department}
